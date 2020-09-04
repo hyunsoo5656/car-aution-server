@@ -37,14 +37,14 @@ router.post("/", upload.single("carImage"), async function (req, res, next) {
   // console.log(req.file)
   const { modelName, year, manufacturer, vin } = req.body;
   const carImage = req.file;
-  console.log(carImage);
+  // console.log(carImage);
 
   const car = await CarModel.create({
     modelName: modelName,
     year: year,
     manufacturer: manufacturer,
     vin: vin,
-    image: carImage.path,
+    // image: carImage.path,
   });
   // console.log(req.body)
   res.json({
