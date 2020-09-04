@@ -32,7 +32,7 @@ app.use(
 
 const { sequelize } = require("./models");
 sequelize
-  .sync({ force: false, alter: true })
+  .sync({ force: false, alter: false })
   .then(() => {
     console.log("연결 성공!");
   })

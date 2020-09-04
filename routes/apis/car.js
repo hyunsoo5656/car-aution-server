@@ -33,6 +33,11 @@ router.use(passport.authenticate("jwt"));
 // upload.array("<fieldName>", num_of_files )
 
 const CarModel = require("../../models").Car;
+
+/*
+ * POST /car     register my car
+ */
+
 router.post("/", upload.single("carImage"), async function (req, res, next) {
   // console.log(req.file)
   const { modelName, year, manufacturer, vin } = req.body;
@@ -44,6 +49,7 @@ router.post("/", upload.single("carImage"), async function (req, res, next) {
     year: year,
     manufacturer: manufacturer,
     vin: vin,
+    ownerId: req.user.id,
     // image: carImage.path,
   });
   // console.log(req.body)
@@ -60,11 +66,39 @@ router.post("/", upload.single("carImage"), async function (req, res, next) {
   });
 });
 
-router.get("/", function (req, res, next) {
+router.get("/", async function (req, res, next) {
+  const carList = await CarModel.findAll({});
   console.log("-----");
   console.log(req.user);
 
-  res.send("결과");
+  res.json(carList);
+});
+
+/*
+ * GET /car     register my car
+ */
+
+router.get("/", async (req, res, next) => {
+  const carList = await CarModel.findAll({
+    where: {
+      ownerId: req.user.id,
+    },
+  });
+  res.json(carList);
+});
+
+/*
+ * GET /car     get Car Detail // auction
+ */
+
+router.get("/:id", async function (req, res, next) {
+  const car = await CarModel.findOne({
+    inclued: "inAuction",
+    where: {
+      id: req.params.id,
+    },
+  });
+  res.json(car);
 });
 
 module.exports = router;
