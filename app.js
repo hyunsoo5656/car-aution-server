@@ -18,7 +18,6 @@ const apiRouter = require("./routes/apis");
 // Cookie는? 브라우저(클라이언트)에 저장하는 데이터 조각.
 var app = express();
 
-
 app.use(cors());
 
 const session = require("express-session");
@@ -50,6 +49,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // app.use('/', indexRouter);
 // app.use('/auth', authRouter);
@@ -72,7 +72,9 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.send(`Error 발생 ${err.message}`);
+
+  res.json({});
+  // res.send(`Error 발생 ${err.message}`);
   // res.render("error");
 });
 
