@@ -41,8 +41,25 @@ router.post("/", upload.single("carImage"), function (req, res, next) {
   // console.log(req.file);
   // console.log(req.body);
   console.log(carImage);
+
+  const car = await CarModel.create({
+    modelName: modelName,
+    year: year,
+    manufacturer: manufacturer,
+    vin: vin,
+    image: carImage.path,
+  });
+
   res.json({
     result: "success",
+    message : JSON.stringify({
+      id: car.id,
+      modelName: car.modelName,
+      year : car.year,
+      manufacturer: car.manufacturer,
+      vin : car.vin,
+      image: car.image,
+    })
   });
 });
 
