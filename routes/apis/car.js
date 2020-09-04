@@ -93,7 +93,7 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:id", async function (req, res, next) {
   const car = await CarModel.findOne({
-    inclued: "inAuction",
+    include: "inAuction",
     where: {
       id: req.params.id,
     },
